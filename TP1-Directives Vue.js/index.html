@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP Directives Vue.js</title>
+    <link rel="stylesheet" href="css.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <p>Image is {{ isVisible ? "visible" : "hidden" }} !</p>
+        <img v-show="isVisible" :src="imageUrl" alt="Image affichée">
+        <br>
+        <label for="imageUrl">Image URL :</label>
+
+        <input type="text" id="imageUrl">
+        <button @click="toggleVisibility">Hide Image</button>
+        <button @click.prevent="updateImage">Update Image</button>
+
+
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                isVisible: true,
+                imageUrl: 'https://img.le-dictionnaire.com/eag-foot.jpg',
+            },
+            methods: {
+                toggleVisibility: function () {
+                    this.isVisible = !this.isVisible;
+                },
+                updateImage: function () {
+                    this.imageUrl = document.querySelector('#imageUrl').value;
+
+                },
+            },
+        });
+    </script>
+</body>
+
+</html>
