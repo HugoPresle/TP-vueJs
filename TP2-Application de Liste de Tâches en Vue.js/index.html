@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste de Tâches Vue.js</title>
+    <link rel="stylesheet" href="css.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>Liste de Tâches</h1>
+        <!-- Affichage du compteur de tâches non terminées -->
+        <p>{{ nonTerminees }} tâche(s) non terminée(s)</p>
+        
+        <!-- Champ de texte pour ajouter une nouvelle tâche -->
+        <input type="text" v-model="nouvelleTache" @keyup.enter="ajouterTache">
+        <button @click="ajouterTache">Ajouter</button>
+        
+        <!-- Bouton pour afficher/cacher les tâches terminées -->
+        <button @click="afficherCacherTachesTermines">{{ afficherTachesTerminesTexte }}</button>
+        
+        <!-- Liste de tâches -->
+        <ul>
+            <li v-for="(tache, index) in taches" :key="index" :class="{ terminee: tache.terminee && afficherTachesTermines }">
+                <input type="checkbox" v-model="tache.terminee"> {{ tache.nom }}
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                nouvelleTache: '',
+                taches: [
+                    { nom: 'Faire les courses', terminee: false },
+                    { nom: 'Répondre aux e-mails', terminee: false },
+                    { nom: 'Faire du sport', terminee: true }
+                ],
+                afficherTachesTermines: true
+            },
+            computed: {
+                nonTerminees: function () {
+                    return this.taches.filter(tache => tache.terminee).length;
+                },
+                afficherTachesTerminesTexte: function () {
+                    return this.afficherTachesTermines ? 'Cacher Tâches Terminées' : 'Afficher Tâches Terminées';
+                }
+            },
+            methods: {
+                ajouterTache: function () {
+                    if (this.nouvelleTache.trim() !== '') {
+                        this.taches.push({ nom: this.nouvelleTache, terminee: false });
+                        this.nouvelleTache = '';
+                    }
+                },
+                afficherCacherTachesTermines: function () {
+                    this.afficherTachesTermines = !this.afficherTachesTermines;
+                }
+            }
+        });
+        
+    </script>
+</body>
+</html>
